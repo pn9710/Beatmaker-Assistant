@@ -1,7 +1,6 @@
 # Belus Beats Bot
-Discord bot for Belus Beats that recommends unique hip-hop inspired songs, leveraging machine learning for trend analysis.
-
 A multi-functional Discord bot for the music producer community, providing AI-driven music generation, song recommendations, sentiment analysis on lyrics, and trend-driven responses. The bot is inspired by the god of sound, Apollo, and helps users explore unique beats and sounds within the hip-hop genre.
+
 ## Features
 1. **GPT-3 Chat** (`!ask`): Get insightful responses to questions and creative prompts.
 2. **Sentiment Analysis** (`!sentiment <text>`): Analyze the sentiment of a text, useful for lyrics and song content.
