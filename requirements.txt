@@ -1,10 +1,7 @@
-import os
-import discord
-import openai
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-from transformers import pipeline
-from magenta.music import music_pb2
-from magenta.music import sequences_lib
-from magenta.models.shared import sequence_generator_bundle
-from magenta.models.performance_rnn import performance_sequence_generator
+discord.py
+spotipy
+requests
+openai
+transformers
+torch
+magenta
