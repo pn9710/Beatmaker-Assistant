@@ -33,7 +33,7 @@ Belus Beats Bot is a music production tool and assistant designed for Discord, e
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/yourusername/belus-beats-bot.git
+   git clone https://github.com/pn9710/belus-beats-bot.git
    cd belus-beats-bot
    ```
 
