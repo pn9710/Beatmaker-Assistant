@@ -1,7 +1,0 @@
-discord.py
-spotipy
-requests
-openai
-transformers
-torch
-magenta
