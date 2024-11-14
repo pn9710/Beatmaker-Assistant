@@ -21,41 +21,39 @@ sentiment_pipeline = pipeline("sentiment-analysis")
 
 import requests
 
-def get_samplette_sample(keyword=""):
-    """
-    Fetches a sample pack or sample from Samplette.io based on a keyword.
-    If no keyword is provided, it fetches a random sample.
-    
-    Args:
-        keyword (str): Optional search keyword for finding a specific sample or pack.
-        
-    Returns:
-        str: Information about the sample, or a URL if available.
-    """
-    url = f"https://api.samplette.io/samples?query={keyword}"  # Samplette's API endpoint
-    headers = {
-        "Authorization": f"Bearer {os.getenv('SAMPLETTE_API_KEY')}"  # If an API key is required
-    }
-    
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        sample_data = response.json()
-        
-        # Assuming 'sample_data' contains a list of samples
-        if sample_data and "samples" in sample_data:
-            sample = sample_data["samples"][0]  # Taking the first sample
-            return f"Sample Title: {sample['title']}\nURL: {sample['url']}\nDescription: {sample['description']}"
-        else:
-            return "No samples found for the given keyword."
-    except requests.exceptions.RequestException as e:
-        return f"Error fetching sample: {str(e)}"
+# Replace 'YOUR_API_KEY' with your actual YouTube API key
+YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
+YOUTUBE_API_SERVICE_NAME = 'youtube'
+YOUTUBE_API_VERSION = 'v3'
 
-# CLI command to fetch a Samplette sample
-if args.action == "samplette":
-    keyword = args.message if args.message else ""
-    sample_info = get_samplette_sample(keyword)
-    print(sample_info)
+def youtube_sample_search(query, max_results=5):
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=YOUTUBE_API_KEY)
+    search_response = youtube.search().list(
+        q=query,
+        part="snippet",
+        type="video",
+        maxResults=max_results
+    ).execute()
+    
+    results = []
+    for item in search_response['items']:
+        video_title = item['snippet']['title']
+        video_url = f"https://www.youtube.com/watch?v={item['id']['videoId']}"
+        results.append((video_title, video_url))
+    
+    return results
+    
+# CLI integration for YouTube sample search
+@client.event
+async def on_message(message):
+    # ... other commands
+    
+    # YouTube Sample Search command
+    elif message.content.startswith("!sample"):
+        query = message.content[len("!sample "):]
+        samples = youtube_sample_search(query)
+        response = "\n".join([f"{title}: {url}" for title, url in samples])
+        await message.channel.send(f"Here are some samples for '{query}':\n{response}")
 
 # Command line argument parser
 parser = argparse.ArgumentParser(description="Belus Beats Bot CLI")
