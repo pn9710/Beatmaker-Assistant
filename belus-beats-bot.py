@@ -19,6 +19,44 @@ client = discord.Client(intents=intents)
 # Sentiment Analysis setup
 sentiment_pipeline = pipeline("sentiment-analysis")
 
+import requests
+
+def get_samplette_sample(keyword=""):
+    """
+    Fetches a sample pack or sample from Samplette.io based on a keyword.
+    If no keyword is provided, it fetches a random sample.
+    
+    Args:
+        keyword (str): Optional search keyword for finding a specific sample or pack.
+        
+    Returns:
+        str: Information about the sample, or a URL if available.
+    """
+    url = f"https://api.samplette.io/samples?query={keyword}"  # Samplette's API endpoint
+    headers = {
+        "Authorization": f"Bearer {os.getenv('SAMPLETTE_API_KEY')}"  # If an API key is required
+    }
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        sample_data = response.json()
+        
+        # Assuming 'sample_data' contains a list of samples
+        if sample_data and "samples" in sample_data:
+            sample = sample_data["samples"][0]  # Taking the first sample
+            return f"Sample Title: {sample['title']}\nURL: {sample['url']}\nDescription: {sample['description']}"
+        else:
+            return "No samples found for the given keyword."
+    except requests.exceptions.RequestException as e:
+        return f"Error fetching sample: {str(e)}"
+
+# CLI command to fetch a Samplette sample
+if args.action == "samplette":
+    keyword = args.message if args.message else ""
+    sample_info = get_samplette_sample(keyword)
+    print(sample_info)
+
 # Command line argument parser
 parser = argparse.ArgumentParser(description="Belus Beats Bot CLI")
 parser.add_argument("action", choices=["run", "ask", "sentiment", "recommend", "audiostellar", "beepbox", "bespoke", 
