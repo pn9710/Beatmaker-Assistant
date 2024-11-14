@@ -21,7 +21,7 @@ Welcome to **Belus Beats Bot** — a powerful Discord bot integrated with AI and
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/belus-beats-bot.git
+   git clone https://github.com/pn9710/belus-beats-bot.git
    cd belus-beats-bot
    ```
 
