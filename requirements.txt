@@ -5,3 +5,6 @@ transformers==4.33.2
 tk==0.1.0
 requests==2.28.2
 python-dotenv==0.21.0
+PyTorch
+TensorFlow==2.8.0
+Flax
